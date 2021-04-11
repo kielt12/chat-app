@@ -8,6 +8,7 @@
           <img v-show="currentRoom != (index+1)" src="../assets/Star1.png" alt="" />
         </ul>
       </div>
+      
        
     </div>
       <router-view :key="$route.path" />
@@ -20,25 +21,31 @@ import { onMounted, ref } from "vue";
 import { useRouter, } from "vue-router";
 import firebase from "firebase";
 import { useStore } from 'vuex'
-// import * as io from 'socket.io-client'
-//   window.io = io
 export default {
   setup() {
 
     let messages = ref({});
     let message = ref("");
     let user = ref(firebase.auth().currentUser);
-    let router = useRouter()
+    let db = ref(firebase.firestore());
+    let router = useRouter();
+    let videoCall = ref([])
     let currentRoom = ref("1");
     let Rooms = ref(["Room 1", "Room 2", "Room 3", "Room 4"]);
     let scrollable = ref(null);
     const store = useStore()
     onMounted(()=>{
       currentRoom.value = router.currentRoute.value.params.name
-      console.log(store.state.chatstore.a)
-    })
+      console.log(user.value)
+       db.value
+        .collection("Room1")
+        .orderBy("createdAt")
+        .onSnapshot((querySnap) => {
+         videoCall.value = querySnap.docs.map((doc) => doc.data());
+          console.log(videoCall.value)
+        });       
 
-   
+    })
 
     const chooseRooms = (room) => {
       currentRoom.value = room;
@@ -50,6 +57,8 @@ export default {
         },
       });
     };
+
+    
 
    
 
@@ -63,7 +72,9 @@ export default {
       currentRoom,
       chooseRooms,
       router,
-      store
+      store,
+      db,
+      videoCall
     };
   },
 };

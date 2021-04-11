@@ -3,14 +3,14 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-  path: "/",
+  path: "/ee",
   name: "Test",
   component: () =>
     import(/* webpackChunkName: "about" */ "../views/Test.vue")
 },
 
   {
-    path: "/a",
+    path: "/",
     name: "Chat",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Chat.vue"),

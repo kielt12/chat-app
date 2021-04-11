@@ -50,21 +50,14 @@ export default {
     
 
     onMounted(  () => {
-       console.log(store.state.chatstore.a)
-        
       db.value
         .collection(collection.value)
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
           messages.value = querySnap.docs.map((doc) => doc.data());
-          if(messages.value.length){
-              store.state.chatstore.a = messages.value[messages.value.length -1].userUID
-          }
-          
-        });
-        
-       
+        });       
     });
+
 
     const sendMessage = async () => {
         

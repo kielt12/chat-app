@@ -66,7 +66,6 @@ export default {
       remoteStream.value = new MediaStream();
 
       // Push tracks from local stream to peer connection
-      console.log(localStream.value.getTracks())
       localStream.value.getTracks().forEach((track) => {
         pc.addTrack(track, localStream.value);
       });
@@ -80,9 +79,6 @@ export default {
       videoEl.value.srcObject = localStream.value;
       video1El.value.srcObject = remoteStream.value;
 
-    //   callButton.disabled = false;
-    //   answerButton.disabled = false;
-    //   webcamButton.disabled = true;
     };
     const call = async () => {
   // Reference Firestore collections for signaling
