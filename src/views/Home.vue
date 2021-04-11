@@ -34,19 +34,17 @@
 <script>
 import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { ref, onMounted,computed } from "vue";
-import { useStore } from 'vuex'
+import { ref, onMounted } from "vue";
 
 export default {
   setup() {
-    let router = useRouter()
-    let scrollable = ref(null);
-    let db = ref(firebase.firestore());
-    let user = ref(firebase.auth().currentUser);
-    let messages = ref({});
-    let message = ref("");
-    let collection = ref('Room'+router.currentRoute.value.params.name)
-    const store = useStore()
+    const router = useRouter()
+    const scrollable = ref(null);
+    const db = ref(firebase.firestore());
+    const user = ref(firebase.auth().currentUser);
+    const messages = ref({});
+    const message = ref("");
+    const collection = ref('Room'+router.currentRoute.value.params.name)
     
 
     onMounted(  () => {
@@ -86,7 +84,6 @@ export default {
     };
 
     return {
-    dba: computed( ()=> store.getters.dba),
       user,
       scrollable,
       db,
