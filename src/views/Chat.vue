@@ -7,6 +7,8 @@
           :key="index"
           @click="chooseRooms(index + 1)"
         >
+        <router-link :to="{name: 'Chatroom',
+                params: { id:  'room' + index+1, name:index+1 },}">
           <li
           >
             {{ room }}
@@ -14,13 +16,12 @@
           <img
             v-show="currentRoom == index + 1"
             src="../assets/Star.png"
-            alt=""
           />
           <img
             v-show="currentRoom != index + 1"
             src="../assets/Star1.png"
-            alt=""
           />
+          </router-link>
         </ul>
       </div>
     </div>
@@ -57,13 +58,6 @@ export default {
 
     const chooseRooms = (room) => {
       currentRoom.value = room;
-      router.push({
-        name: "Chatroom",
-        params: {
-          id: "room" + room,
-          name: room,
-        },
-      });
     };
 
     return {
@@ -110,8 +104,7 @@ body {
     }
     ul {
       list-style: none;
-      display: flex;
-      justify-content: space-between;
+      
       border-bottom: 1px solid black;
     }
     img {
@@ -122,6 +115,11 @@ body {
     li {
       margin-bottom: 10px;
       color: #fff;
+    }
+    a{
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
     }
   }
 }
