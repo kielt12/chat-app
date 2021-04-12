@@ -2,67 +2,70 @@
   <div class="container">
     <div class="sectiona">
       <div class="rooms">
-        <ul v-for="(room, index) in Rooms" :key="index" @click="chooseRooms(index+1)">
-        <li :id="index" :style="{color: user.uid !== store.state.chatstore.a  ? '': 'red'}">{{ room }}</li>
-          <img v-show="currentRoom == (index+1)" src="../assets/Star.png" alt="" />
-          <img v-show="currentRoom != (index+1)" src="../assets/Star1.png" alt="" />
+        <ul
+          v-for="(room, index) in Rooms"
+          :key="index"
+          @click="chooseRooms(index + 1)"
+        >
+          <li
+          >
+            {{ room }}
+          </li>
+          <img
+            v-show="currentRoom == index + 1"
+            src="../assets/Star.png"
+            alt=""
+          />
+          <img
+            v-show="currentRoom != index + 1"
+            src="../assets/Star1.png"
+            alt=""
+          />
         </ul>
       </div>
-      
-       
     </div>
-      <router-view :key="$route.path" />
-   
+    <router-view :key="$route.path" />
   </div>
 </template>
 
 <script>
 import { onMounted, ref } from "vue";
-import { useRouter, } from "vue-router";
+import { useRouter } from "vue-router";
 import firebase from "firebase";
-import { useStore } from 'vuex'
 export default {
   setup() {
-
-    let messages = ref({});
-    let message = ref("");
-    let user = ref(firebase.auth().currentUser);
-    let db = ref(firebase.firestore());
-    let router = useRouter();
-    let videoCall = ref([])
-    let currentRoom = ref("1");
-    let Rooms = ref(["Room 1", "Room 2", "Room 3", "Room 4"]);
-    let scrollable = ref(null);
-    const store = useStore()
-    onMounted(()=>{
-      currentRoom.value = router.currentRoute.value.params.name
-      console.log(user.value)
-       db.value
+    const messages = ref({});
+    const message = ref("");
+    const user = ref(firebase.auth().currentUser);
+    const db = ref(firebase.firestore());
+    const router = useRouter();
+    const videoCall = ref([]);
+    const currentRoom = ref("1");
+    const Rooms = ref(["Room 1", "Room 2", "Room 3", "Room 4"]);
+    const scrollable = ref(null);
+    onMounted(() => {
+      currentRoom.value = router.currentRoute.value.params.name;
+      console.log(user.value);
+      db.value
         .collection("Room1")
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
-         videoCall.value = querySnap.docs.map((doc) => doc.data());
-          console.log(videoCall.value)
-        });       
-
-    })
+          videoCall.value = querySnap.docs.map((doc) => doc.data());
+          console.log(videoCall.value);
+        });
+    });
 
     const chooseRooms = (room) => {
       currentRoom.value = room;
       router.push({
         name: "Chatroom",
         params: {
-          id: "room"+room,
-          name: room
+          id: "room" + room,
+          name: room,
         },
       });
     };
 
-    
-
-   
-
-    
     return {
       messages,
       message,
@@ -72,9 +75,8 @@ export default {
       currentRoom,
       chooseRooms,
       router,
-      store,
       db,
-      videoCall
+      videoCall,
     };
   },
 };
@@ -116,7 +118,6 @@ body {
       height: 17px;
       margin-right: 17px;
       color: saddlebrown;
-      
     }
     li {
       margin-bottom: 10px;
