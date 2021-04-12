@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref,onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import firebase from "firebase";
 export default {
@@ -44,17 +44,21 @@ export default {
     const currentRoom = ref("1");
     const Rooms = ref(["Room 1", "Room 2", "Room 3", "Room 4"]);
     const scrollable = ref(null);
+
     onMounted(() => {
       currentRoom.value = router.currentRoute.value.params.name;
       console.log(user.value);
-      db.value
-        .collection("Room1")
-        .orderBy("createdAt")
-        .onSnapshot((querySnap) => {
-          videoCall.value = querySnap.docs.map((doc) => doc.data());
-          console.log(videoCall.value);
-        });
     });
+
+    onBeforeMount(() =>{
+      router.push({
+        name: "Chatroom",
+        params: {
+          id: "room" + 1,
+          name: 1,
+        },
+      });
+    })
 
     const chooseRooms = (room) => {
       currentRoom.value = room;

@@ -14,14 +14,6 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithRedirect(provider)
          .catch(console.log)
-        router.push({
-        name: "Chatroom",
-        params: {
-          id: "room" + 1,
-          name: 1,
-        },
-      });
-      
     }
     return{
       loginSubmit,
