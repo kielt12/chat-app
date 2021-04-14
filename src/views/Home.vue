@@ -59,7 +59,6 @@ export default {
       if (message.value !== "") {
         const messageInfo = {
           userUID: user.value.uid,
-          displayName: user.value.displayName,
           photoURL: user.value.photoURL,
           text: message.value,
           createdAt: Date.now(),

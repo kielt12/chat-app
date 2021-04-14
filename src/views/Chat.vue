@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <Modal
+      v-if="modalToggle"
+      :modalData="modalData"
+      :rightButtonFunction="declineCall"
+      :leftButtonFunction="videoCall"
+    />
     <div class="sectiona">
       <div class="rooms">
         <ul
@@ -22,7 +28,11 @@
         </ul>
       </div>
       <div class="online-users" v-for="users in onlineUsers" :key="users">
-        <img @click="call(users.userID)" :src="users.photo" />
+        <img
+          v-if="users.userID !== user.uid"
+          @click="call(users)"
+          :src="users.photo"
+        />
       </div>
     </div>
     <router-view :key="$route.path" />
@@ -30,10 +40,13 @@
 </template>
 
 <script>
-import { onMounted, ref, onBeforeMount } from "vue";
+import { onMounted, ref, onBeforeMount, reactive } from "vue";
 import { useRouter } from "vue-router";
 import firebase from "firebase";
+import Modal from "../components/Modal";
+import { useStore } from "vuex";
 export default {
+  components: { Modal },
   setup() {
     const messages = ref({});
     const message = ref("");
@@ -41,17 +54,44 @@ export default {
     const db = ref(firebase.firestore());
     const router = useRouter();
     const onlineUsers = ref({});
-    const videoCall = ref([]);
+    const displayName = ref("");
+    const receiverID = ref(null);
+    const store = useStore();
     const currentRoom = ref("1");
     const Rooms = ref(["Room 1", "Room 2", "Room 3", "Room 4"]);
     const scrollable = ref(null);
+    const modalToggle = ref(false);
+    const modalData = reactive({
+      photo: null,
+      title: "Video Call",
+      text: null,
+      yesBtnText: "Call",
+      noBtnText: "Exit",
+    });
 
     onMounted(() => {
-      console.log(currentRoom.value);
       currentRoom.value = router.currentRoute.value.params.name;
       db.value.collection("users").onSnapshot((querySnap) => {
         onlineUsers.value = querySnap.docs.map((doc) => doc.data());
-        console.log(onlineUsers.value);
+      });
+      db.value.collection("calls").onSnapshot((querySnap) => {
+        if (!querySnap.empty) {
+          querySnap.forEach((doc) => {
+            if (doc.data().offer.id === user.value.uid) {
+             
+              let caller = onlineUsers.value.find(
+                (userData) => userData.userID === doc.data().offer.callerID
+              );
+              modalData.yesBtnText = "Ansewer";
+              modalData.noBtnText = "Decline";
+              modalData.photo = caller.photo;
+              modalData.text = caller.displayName;
+              receiverID.value = doc.data().offer.id;
+              console.log(receiverID.value)
+               toggle();
+            }
+          });
+        }
       });
     });
 
@@ -59,9 +99,35 @@ export default {
       currentRoom.value = room;
     };
 
-    const call = (user) =>{
-      console.log(user)
+    const call = (user) => {
+      modalData.photo = user.photo;
+      modalData.text = user.displayName;
+      displayName.value = user.photo;
+      store.commit("setCurrentDoc", user);
+      toggle()
+    };
+
+    const toggle = () => {
+      modalToggle.value = modalToggle.value ? false : true;
+    };
+
+    const declineCall = () =>{
+      toggle()
+      store.commit("setCurrentDoc", null)
+      if (receiverID.value === user.value.uid) {
+        console.log('dd')
+        db.value
+          .collection("calls")
+          .doc(user.value.uid)
+          .delete()
+          .catch(console.log);
+      }
     }
+
+    const videoCall = () => {
+      router.push("/videoCall");
+      modalToggle.value = modalToggle.value ? false : true;
+    };
 
     onBeforeMount(() => {
       let paramName = 1;
@@ -89,7 +155,13 @@ export default {
       db,
       videoCall,
       onlineUsers,
-      call
+      call,
+      displayName,
+      modalData,
+      toggle,
+      modalToggle,
+      receiverID,
+       declineCall
     };
   },
 };
@@ -157,7 +229,7 @@ body {
       li {
         display: none;
       }
-      img{
+      img {
         margin-bottom: 0.7rem;
       }
       .online-users {
@@ -168,6 +240,4 @@ body {
     }
   }
 }
-
-
 </style>

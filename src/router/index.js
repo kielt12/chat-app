@@ -3,13 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 //import Store from "../store/index";
 
 const routes = [
-  {
-    path: "/ee",
-    name: "Test",
-   
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Test.vue"),
-  },
+  
   {
     path: "/login",
     name: "Login",
@@ -28,6 +22,13 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "Chat.vue*" */ "../views/Home.vue"),
       },
+      {
+        path: "/videoCall",
+        name: "Test",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Test.vue"),
+      },
+
     ],
   },
 ];

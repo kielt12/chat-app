@@ -24,7 +24,9 @@ export default {
             let currentUser = {
               photo: user.photoURL,
               userID: user.uid,
+              displayName: user.displayName
             };
+            console.log(currentUser)
             db.value.collection("users").doc(user.uid).set(currentUser);
           }
           console.log(user.uid);

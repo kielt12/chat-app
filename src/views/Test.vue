@@ -30,7 +30,8 @@
 
 <script>
 import firebase from "firebase";
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
+import {useStore} from 'vuex'
 export default {
   setup() {
     const firestore = firebase.firestore();
@@ -45,16 +46,18 @@ export default {
       ],
       iceCandidatePoolSize: 10,
     };
-
-    // Global State
     const pc = new RTCPeerConnection(servers);
     const localStream = ref(null);
     const remoteStream = ref(null);
     const callInput = ref(null);
-
+    const store = useStore()
     const videoEl = ref(null);
     const video1El = ref(null);
+    const user = ref(firebase.auth().currentUser);
 
+    onMounted(()=>{
+      webcam()
+    })
     const webcam = async () => {
       localStream.value = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -75,10 +78,16 @@ export default {
       console.log(videoEl);
       videoEl.value.srcObject = localStream.value;
       video1El.value.srcObject = remoteStream.value;
+      if(user.value.uid === store.getters.getCurrentDoc.userID ){
+        answer()
+      } else {
+        call()
+      }
     };
     const call = async () => {
       // Reference Firestore collections for signaling
-      const callDoc = firestore.collection("calls").doc();
+      const callDoc = firestore.collection("calls").doc(store.getters.getCurrentDoc.userID);
+      console.log(store)
       const offerCandidates = callDoc.collection("offerCandidates");
       const answerCandidates = callDoc.collection("answerCandidates");
 
@@ -93,10 +102,13 @@ export default {
       // Create offer
       const offerDescription = await pc.createOffer();
       await pc.setLocalDescription(offerDescription);
-
+      console.log(user.value)
       const offer = {
         sdp: offerDescription.sdp,
         type: offerDescription.type,
+        id : store.getters.getCurrentDoc.userID,
+        callerID: user.value.uid
+
       };
 
       await callDoc.set({ offer });
@@ -125,7 +137,7 @@ export default {
 
     // 3. Answer the call with the unique ID
     const answer = async () => {
-      const callId = callInput.value;
+      const callId = store.getters.getCurrentDoc.userID;
       const callDoc = firestore.collection("calls").doc(callId);
       const answerCandidates = callDoc.collection("answerCandidates");
       const offerCandidates = callDoc.collection("offerCandidates");
@@ -168,6 +180,7 @@ export default {
       videoEl,
       video1El,
       callInput,
+      user
     };
   },
 };
