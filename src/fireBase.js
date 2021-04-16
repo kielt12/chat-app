@@ -10,8 +10,6 @@ var firebaseConfig = {
   appId:  process.env.VUE_APP_APP_ID,
   measurementId:  process.env.VUE_APP_MESUREMENT_ID,
 };
-
-console.log(process.env.VUE_APP_API_KEY)
 var FB = firebase.initializeApp(firebaseConfig);
 
 export default FB;
