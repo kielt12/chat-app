@@ -24,13 +24,11 @@ export default {
             let currentUser = {
               photo: user.photoURL,
               userID: user.uid,
-              displayName: user.displayName
+              displayName: user.displayName,
             };
-            console.log(currentUser)
+            console.log(currentUser);
             db.value.collection("users").doc(user.uid).set(currentUser);
           }
-          console.log(user.uid);
-          console.log(user.photoURL);
           router.push({
             name: "Chat",
           });
@@ -50,6 +48,7 @@ export default {
 
 <style>
 body {
-  background-color: #313131;
+  margin: 0;
+  padding: 0;
 }
 </style>

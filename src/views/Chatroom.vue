@@ -18,14 +18,15 @@
 
       <div ref="scrollable"></div>
     </div>
-    <span class="botbar">
+    <div class="botbar">
       <input
         v-model="message"
         type="text"
         placeholder="Enter your message!"
-        @keydown.enter="sendMessage(event)"
+        @keydown.enter="sendMessage"
       />
-    </span>
+      <button @click="sendMessage"></button>
+    </div>
   </div>
 </template>
 
@@ -105,19 +106,17 @@ export default {
 .sectionb {
   height: 100vh;
   width: 100%;
-  background: #37393f;
+  background: linear-gradient(135deg, #111 2.8%, #172368 100%);
 }
 .topbar {
   display: flex;
   height: 47px;
   padding-left: 10px;
   padding-right: 10px;
-  background: #37393f;
+
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.144);
-  div {
-    color: blanchedalmond;
-  }
+
   img {
     height: 25px;
     margin-top: 10px;
@@ -134,33 +133,53 @@ export default {
 
 .messagechat {
   overflow-y: scroll;
+  scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  background: #37393f;
+  background: linear-gradient(135deg, #111 2.8%, #172368 100%);
   height: 87%;
+}
+
+.messagechat::-webkit-scrollbar {
+  overflow-y: scroll;
 }
 
 .botbar {
   padding-left: 20px;
+  width: 94%;
+  display: flex;
   input {
-    width: 95%;
-    border-radius: 8px;
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     border: none;
-    background: #2e3036;
+    background: rgba(255, 255, 255, 0.07);
     height: 40px;
     padding-left: 25px;
     color: white;
     line-height: 12px;
+
     font-size: 16px;
+  }
+  button {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 42px;
+    cursor: pointer;
+    width: 40px;
+    background: rgba(255, 255, 255, 0.07);
+    border: none;
+    background-image: url("../assets/Subtract2.png");
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 .message {
   display: flex;
   align-items: center;
-
   &.received {
     p {
-      background: #e5e5ea;
+      background: #a7a3a3;
       color: #000;
       overflow-wrap: break-word;
       text-align: left;
@@ -191,21 +210,30 @@ export default {
     margin-bottom: 12px;
     line-height: 24px;
     padding: 10px 20px;
-    border-radius: 25px;
+    border-radius: 15px;
     position: relative;
     color: #fff;
     text-align: center;
   }
- 
 }
- @media only screen and (max-width: 600px) {
- 
-      .botbar {
-        padding-left: 4px;
-        width: 12px;
-        input {
-         width: 70vw;;
-        }
-      }
+
+@media only screen and (max-width: 800px) {
+  .message {
+    p {
+      max-width: 250px;
+    }
   }
+}
+@media only screen and (max-width: 520px) {
+  .botbar {
+    padding-left: 20px;
+    width: 90%;
+    display: flex;
+  }
+  .message {
+    p {
+      max-width: 100px;
+    }
+  }
+}
 </style>

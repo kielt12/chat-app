@@ -1,11 +1,10 @@
 import { createStore } from "vuex";
-import chatstore from './modules/chatStore'
+import chatstore from "./modules/chatStore";
 export default createStore({
-  state: {
-  },
+  state: {},
   mutations: {},
   actions: {},
   modules: {
-    chatstore
+    chatstore,
   },
 });

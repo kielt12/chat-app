@@ -1,15 +1,17 @@
 import firebase from "firebase";
 
 var firebaseConfig = {
-    apiKey: "AIzaSyA7bzVZ7beCihvWh3mh3nOic_zdvkiCBBc",
-    authDomain: "vuechat-20ac9.firebaseapp.com",
-    databaseURL: "https://vuechat-20ac9-default-rtdb.firebaseio.com",
-    projectId: "vuechat-20ac9",
-    storageBucket: "vuechat-20ac9.appspot.com",
-    messagingSenderId: "71464288203",
-    appId: "1:71464288203:web:79bee8b89d4fbd66c0404e",
-    measurementId: "G-50LZNDR8F9"
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain:  process.env.VUE_APP_AUTH_DOMAIN,
+  databaseURL:  process.env.VUE_APP_DATABASE_URL,
+  projectId:  process.env.VUE_APP_PROJECT_ID,
+  storageBucket:  process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId:  process.env.VUE_APP_MESSAFING_SENDER_ID,
+  appId:  process.env.VUE_APP_APP_ID,
+  measurementId:  process.env.VUE_APP_MESUREMENT_ID,
 };
+
+console.log(process.env.VUE_APP_API_KEY)
 var FB = firebase.initializeApp(firebaseConfig);
 
 export default FB;

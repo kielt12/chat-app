@@ -30,7 +30,7 @@ export default {
     "rightButtonFunction",
     "rightButtonText",
     "photo",
-    "modalData"
+    "modalData",
   ],
   setup() {
     return {};
@@ -56,11 +56,11 @@ export default {
 }
 
 img {
-      border-radius: 12px;
-      display: block;
-      height: 24px;
-      margin: 12px auto;  
-    }
+  border-radius: 12px;
+  display: block;
+  height: 24px;
+  margin: 12px auto;
+}
 .modal-container {
   width: 370px;
   height: 180px;

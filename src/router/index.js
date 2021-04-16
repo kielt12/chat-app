@@ -1,15 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
- import firebase from "firebase";
-//import Store from "../store/index";
+import firebase from "firebase";
+import store from "../store/index";
 
 const routes = [
-  
-  {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Login.vue"),
-  },
   {
     path: "",
     name: "Chat",
@@ -20,26 +13,35 @@ const routes = [
         path: "room:name",
         name: "Chatroom",
         component: () =>
-          import(/* webpackChunkName: "Chat.vue*" */ "../views/Home.vue"),
+          import(/* webpackChunkName: "Chat*" */ "../views/Chatroom.vue"),
       },
-      {
-        path: "/videoCall",
-        name: "Test",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Test.vue"),
-      },
-
     ],
   },
+  {
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../components/Login.vue"),
+  },
+  {
+    name: "webCall",
+    component: () =>
+      import(/* webpackChunkName: "wewbcall" */ "../views/WebCall.vue"),
+  },
+  
 ];
-
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  firebase
 });
-router.beforeResolve((to, from,next) =>{
-  next()
-})
+
+router.afterEach((to, from) => {
+  if (to.name === "Chat" && from.name === "webCall") {
+    const callId = store.getters.getCurrentDoc;
+    firebase.firestore().collection("calls").doc(callId).delete();
+    window.location.reload();
+  }
+});
+
 export default router;
