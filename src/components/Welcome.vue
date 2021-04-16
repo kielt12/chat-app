@@ -2,6 +2,7 @@
   <div class="hello">
     <img src="../assets/logo2.png">
     <h1>Welcome to My ChatRoom App</h1>
+    <h3>Click on a room to start chatting</h3>
     <p>
       For a guide on how to use this app ,<br />
       check out the
@@ -9,7 +10,7 @@
         >chatroom app documentation</a
       >.
     </p>
-    <h3>Some of the tecknolgoys used</h3>
+    <h3>Some of the technologies used</h3>
     <ul>
       <li>
         <a href="https://router.vuejs.org" target="_blank" rel="noopener"

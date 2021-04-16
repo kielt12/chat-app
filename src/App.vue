@@ -47,6 +47,11 @@ export default {
 </script>
 
 <style>
+*,
+*:focus,
+*:hover {
+  outline: none;
+}
 body {
   margin: 0;
   padding: 0;

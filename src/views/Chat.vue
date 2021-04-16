@@ -164,11 +164,7 @@ body {
     sans-serif;
 }
 
-*,
-*:focus,
-*:hover {
-  outline: none;
-}
+
 
 .container {
   display: flex;
