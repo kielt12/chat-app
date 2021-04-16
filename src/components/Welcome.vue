@@ -6,7 +6,7 @@
     <p>
       For a guide on how to use this app ,<br />
       check out the
-      <a href="https://github.com/kielt12/ChatApp" target="_blank" rel="noopener"
+      <a href="https://github.com/kielt12/chat-app" target="_blank" rel="noopener"
         >chatroom app documentation</a
       >.
     </p>
