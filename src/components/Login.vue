@@ -6,7 +6,7 @@
       @mouseover="googleHover = false"
       @mouseleave="googleHover = true"
     >
-      <span v-if="googleHover"> Login with Google! </span>
+      <span v-if="googleHover"> Login with Google </span>
       <img v-else src="../assets/google.png" alt="" />
     </button>
     <div>
@@ -15,7 +15,7 @@
         @mouseover="githubHover = false"
         @mouseleave="githubHover = true"
       >
-        <span v-if="githubHover"> Login with GitHub! </span>
+        <span v-if="githubHover"> Login with GitHub </span>
         <img v-else src="../assets/github.png" alt="" />
       </button>
     </div>

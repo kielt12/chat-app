@@ -35,7 +35,7 @@
         />
       </div>
     </div>
-    <Welcome v-show="path" />
+    <Welcome :userIcon="user.photoURL" :logout="logout" v-show="path" />
     <router-view :key="$route.path" />
   </div>
 </template>
@@ -71,6 +71,8 @@ export default {
       yesBtnText: "Call",
       noBtnText: "Exit",
     });
+
+    console.log(typeof displayName.value)
     
     onMounted(() => {
       currentRoom.value = router.currentRoute.value.params.name;
@@ -114,6 +116,15 @@ export default {
       modalToggle.value = modalToggle.value ? false : true;
     };
 
+    const logout = async () => {
+      await firebase.auth().signOut();
+      db.value
+        .collection("users")
+        .doc(user.value.uid)
+        .delete()
+        .catch(console.log);
+    };
+
     const declineCall = () => {
       toggle();
       store.commit("setCurrentDoc", null);
@@ -151,6 +162,7 @@ export default {
       receiverID,
       declineCall,
       path: computed(() => route.name === "Chat"),
+      logout
     };
   },
 };

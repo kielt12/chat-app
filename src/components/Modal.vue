@@ -22,16 +22,11 @@
 
 <script>
 export default {
-  props: [
-    "modalTitle",
-    "modalText",
-    "leftButtonText",
-    "leftButtonFunction",
-    "rightButtonFunction",
-    "rightButtonText",
-    "photo",
-    "modalData",
-  ],
+  props: {
+    leftButtonFunction : Function,
+    rightButtonFunction : Function,
+    modalData : Object
+  },
   setup() {
     return {};
   },
