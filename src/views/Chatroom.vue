@@ -33,7 +33,7 @@
 <script>
 import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUpdated } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -45,7 +45,15 @@ export default {
     const user = ref(firebase.auth().currentUser);
     const messages = ref({});
     const message = ref("");
+    const newMsgReceived = ref(true);
     const collection = ref("Room" + router.currentRoute.value.params.name);
+
+    onUpdated(() => {
+      if (newMsgReceived.value) {
+        scrollable.value.scrollIntoView();
+        newMsgReceived.value = false
+      }
+    });
 
     onMounted(() => {
       db.value
@@ -53,6 +61,7 @@ export default {
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
           messages.value = querySnap.docs.map((doc) => doc.data());
+         newMsgReceived.value = true
         });
     });
 
@@ -169,6 +178,7 @@ export default {
     width: 40px;
     background: rgba(255, 255, 255, 0.07);
     border: none;
+    background-size: 17px;
     background-image: url("../assets/Subtract2.png");
     background-repeat: no-repeat;
     background-position: center;
