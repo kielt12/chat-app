@@ -23,9 +23,9 @@
 <script>
 export default {
   props: {
-    leftButtonFunction : Function,
-    rightButtonFunction : Function,
-    modalData : Object
+    leftButtonFunction: Function,
+    rightButtonFunction: Function,
+    modalData: Object,
   },
   setup() {
     return {};

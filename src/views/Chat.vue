@@ -72,8 +72,8 @@ export default {
       noBtnText: "Exit",
     });
 
-    console.log(typeof displayName.value)
-    
+    console.log(typeof displayName.value);
+
     onMounted(() => {
       currentRoom.value = router.currentRoute.value.params.name;
       db.value.collection("users").onSnapshot((querySnap) => {
@@ -138,7 +138,7 @@ export default {
     };
 
     const videoCall = () => {
-      router.push({name:'webCall'});
+      router.push({ name: "webCall" });
       modalToggle.value = modalToggle.value ? false : true;
     };
 
@@ -162,7 +162,7 @@ export default {
       receiverID,
       declineCall,
       path: computed(() => route.name === "Chat"),
-      logout
+      logout,
     };
   },
 };
@@ -175,8 +175,6 @@ body {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
 }
-
-
 
 .container {
   display: flex;

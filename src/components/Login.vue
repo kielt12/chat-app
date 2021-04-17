@@ -1,24 +1,24 @@
 <template>
   <div class="login-container">
     <div class="btns-container">
-    <button
-      @click="googleLoginSubmit"
-      @mouseover="googleHover = false"
-      @mouseleave="googleHover = true"
-    >
-      <span v-if="googleHover"> Login with Google </span>
-      <img v-else src="../assets/google.png" alt="" />
-    </button>
-    <div>
       <button
-        @click="githubLoginSubmit"
-        @mouseover="githubHover = false"
-        @mouseleave="githubHover = true"
+        @click="googleLoginSubmit"
+        @mouseover="googleHover = false"
+        @mouseleave="googleHover = true"
       >
-        <span v-if="githubHover"> Login with GitHub </span>
-        <img v-else src="../assets/github.png" alt="" />
+        <span v-if="googleHover"> Login with Google </span>
+        <img v-else src="../assets/google.png" alt="" />
       </button>
-    </div>
+      <div>
+        <button
+          @click="githubLoginSubmit"
+          @mouseover="githubHover = false"
+          @mouseleave="githubHover = true"
+        >
+          <span v-if="githubHover"> Login with GitHub </span>
+          <img v-else src="../assets/github.png" alt="" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,18 +34,24 @@ export default {
     const githubHover = ref(true);
     const googleLoginSubmit = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).catch((error)=>{
-        console.log(error)
-        alert(error.message)
-      });
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .catch((error) => {
+          console.log(error);
+          alert(error.message);
+        });
     };
 
     const githubLoginSubmit = () => {
       const provider = new firebase.auth.GithubAuthProvider();
-      firebase.auth().signInWithPopup(provider).catch((error)=>{
-        console.log(error)
-        alert(error.message)
-      });
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .catch((error) => {
+          console.log(error);
+          alert(error.message);
+        });
     };
 
     return {
@@ -53,7 +59,7 @@ export default {
       router,
       googleHover,
       githubLoginSubmit,
-      githubHover
+      githubHover,
     };
   },
 };
@@ -65,7 +71,7 @@ export default {
   height: 100vh;
   background: linear-gradient(226.42deg, #1b4963 8.93%, #09152f 110.98%);
   text-align: center;
-  .btns-container{
+  .btns-container {
     padding-top: 10%;
   }
   button {
@@ -93,8 +99,9 @@ export default {
     }
   }
   @media only screen and (max-width: 1200px) {
-  .btns-container{
-    padding-top: 40%;
-  }}
+    .btns-container {
+      padding-top: 40%;
+    }
+  }
 }
 </style>

@@ -28,7 +28,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "wewbcall" */ "../views/WebCall.vue"),
   },
-  
 ];
 
 const router = createRouter({

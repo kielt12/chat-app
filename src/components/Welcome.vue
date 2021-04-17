@@ -48,11 +48,10 @@ export default {
   name: "Welcome",
   props: {
     userIcon: String,
-    logout : Function
+    logout: Function,
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .hello {

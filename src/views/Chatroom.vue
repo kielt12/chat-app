@@ -51,7 +51,7 @@ export default {
     onUpdated(() => {
       if (newMsgReceived.value) {
         scrollable.value.scrollIntoView();
-        newMsgReceived.value = false
+        newMsgReceived.value = false;
       }
     });
 
@@ -61,7 +61,7 @@ export default {
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
           messages.value = querySnap.docs.map((doc) => doc.data());
-         newMsgReceived.value = true
+          newMsgReceived.value = true;
         });
     });
 
