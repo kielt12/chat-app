@@ -1,37 +1,59 @@
 <template>
   <div class="login-container">
-    <button @click="loginSubmit"
-    @mouseover="hover = false"
-    @mouseleave="hover = true"
+    <div class="btns-container">
+    <button
+      @click="googleLoginSubmit"
+      @mouseover="googleHover = false"
+      @mouseleave="googleHover = true"
     >
-      
-      <span v-if="hover">
-        Login with Google!
-      </span>
-      <img v-else src="../assets/google.png" alt="">
-      
+      <span v-if="googleHover"> Login with Google! </span>
+      <img v-else src="../assets/google.png" alt="" />
+    </button>
+    <div>
+      <button
+        @click="githubLoginSubmit"
+        @mouseover="githubHover = false"
+        @mouseleave="githubHover = true"
+      >
+        <span v-if="githubHover"> Login with GitHub! </span>
+        <img v-else src="../assets/github.png" alt="" />
       </button>
+    </div>
+    </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { ref } from 'vue';
+import { ref } from "vue";
 export default {
   setup() {
     const router = useRouter();
-    const hover = ref(true)
-    const loginSubmit = () => {
+    const googleHover = ref(true);
+    const githubHover = ref(true);
+    const googleLoginSubmit = () => {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).catch(console.log);
+      firebase.auth().signInWithPopup(provider).catch((error)=>{
+        console.log(error)
+        alert(error.message)
+      });
+    };
+
+    const githubLoginSubmit = () => {
+      const provider = new firebase.auth.GithubAuthProvider();
+      firebase.auth().signInWithPopup(provider).catch((error)=>{
+        console.log(error)
+        alert(error.message)
+      });
     };
 
     return {
-      loginSubmit,
+      googleLoginSubmit,
       router,
-      hover
-      
+      googleHover,
+      githubLoginSubmit,
+      githubHover
     };
   },
 };
@@ -41,8 +63,11 @@ export default {
 .login-container {
   width: 100%;
   height: 100vh;
-  background: linear-gradient(226.42deg, #1B4963 8.93%, #09152F 110.98%);
+  background: linear-gradient(226.42deg, #1b4963 8.93%, #09152f 110.98%);
   text-align: center;
+  .btns-container{
+    padding-top: 10%;
+  }
   button {
     margin-top: 50px;
     width: 50%;
@@ -60,12 +85,16 @@ export default {
       background: #fff;
       color: transparent;
     }
-    span{
+    span {
       height: 100%;
     }
-    img{
+    img {
       height: 24px;
     }
   }
+  @media only screen and (max-width: 1200px) {
+  .btns-container{
+    padding-top: 40%;
+  }}
 }
 </style>

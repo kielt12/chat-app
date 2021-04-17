@@ -26,7 +26,6 @@ export default {
               userID: user.uid,
               displayName: user.displayName,
             };
-            console.log(currentUser);
             db.value.collection("users").doc(user.uid).set(currentUser);
           }
           router.push({
@@ -53,6 +52,7 @@ export default {
   outline: none;
 }
 body {
+  background: linear-gradient(135deg, #111 2.8%, #172368 100%);
   margin: 0;
   padding: 0;
 }
