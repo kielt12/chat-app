@@ -34,7 +34,7 @@
 import firebase from "firebase";
 import { useRouter } from "vue-router";
 import { ref, onMounted, computed, watch, nextTick } from "vue";
-import { useStore } from "vuex";
+
 
 export default {
   setup() {
@@ -45,6 +45,7 @@ export default {
     const user = ref(firebase.auth().currentUser);
     const messages = ref({});
     const message = ref("");
+    const newMsgReceived = ref(true);
     const collection = ref("Room" + router.currentRoute.value.params.name);
 
     watch(messages, () => {
@@ -59,6 +60,7 @@ export default {
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
           messages.value = querySnap.docs.map((doc) => doc.data());
+         newMsgReceived.value = true
         });
     });
 
