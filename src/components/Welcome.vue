@@ -1,12 +1,18 @@
 <template>
   <div class="hello">
-    <img src="../assets/logo2.png">
+    <div @click="logout" class="user-icon">
+      <img :src="userIcon" alt="" />
+    </div>
+    <img src="../assets/logo2.png" />
     <h1>Welcome to My ChatRoom App</h1>
     <h3>Click on a room to start chatting</h3>
     <p>
       For a guide on how to use this app ,<br />
       check out the
-      <a href="https://github.com/kielt12/chat-app" target="_blank" rel="noopener"
+      <a
+        href="https://github.com/kielt12/chat-app"
+        target="_blank"
+        rel="noopener"
         >chatroom app documentation</a
       >.
     </p>
@@ -40,6 +46,10 @@
 <script>
 export default {
   name: "Welcome",
+  props: {
+    userIcon: String,
+    logout: Function,
+  },
 };
 </script>
 
@@ -49,6 +59,17 @@ export default {
   width: 90%;
   text-align: center;
   color: #fff;
+
+  .user-icon {
+    float: right;
+    img {
+      height: 25px;
+      margin-top: 10px;
+      margin-right: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  }
   h3 {
     margin: 40px 0 0;
   }
@@ -65,18 +86,15 @@ export default {
   }
 }
 
-
 @media only screen and (max-width: 800px) {
-  img{
-      
-      width:400px
+  img {
+    width: 400px;
   }
 }
 
 @media only screen and (max-width: 520px) {
-  img{
-      
-      width:300px
+  img {
+    width: 300px;
   }
 }
 </style>

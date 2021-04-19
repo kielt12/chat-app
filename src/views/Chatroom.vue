@@ -33,8 +33,8 @@
 <script>
 import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed, onUpdated } from "vue";
-import { useStore } from "vuex";
+import { ref, onMounted, computed, watch, nextTick } from "vue";
+
 
 export default {
   setup() {
@@ -48,11 +48,10 @@ export default {
     const newMsgReceived = ref(true);
     const collection = ref("Room" + router.currentRoute.value.params.name);
 
-    onUpdated(() => {
-      if (newMsgReceived.value) {
-        scrollable.value.scrollIntoView();
-        newMsgReceived.value = false
-      }
+    watch(messages, () => {
+      nextTick(() => {
+        scrollable.value?.scrollIntoView();
+      });
     });
 
     onMounted(() => {
