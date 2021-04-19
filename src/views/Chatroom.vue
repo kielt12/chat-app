@@ -33,7 +33,7 @@
 <script>
 import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed, onUpdated } from "vue";
+import { ref, onMounted, computed, watch, nextTick } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -45,14 +45,12 @@ export default {
     const user = ref(firebase.auth().currentUser);
     const messages = ref({});
     const message = ref("");
-    const newMsgReceived = ref(true);
     const collection = ref("Room" + router.currentRoute.value.params.name);
 
-    onUpdated(() => {
-      if (newMsgReceived.value) {
-        scrollable.value.scrollIntoView();
-        newMsgReceived.value = false;
-      }
+    watch(messages, () => {
+      nextTick(() => {
+        scrollable.value?.scrollIntoView();
+      });
     });
 
     onMounted(() => {
@@ -61,7 +59,6 @@ export default {
         .orderBy("createdAt")
         .onSnapshot((querySnap) => {
           messages.value = querySnap.docs.map((doc) => doc.data());
-          newMsgReceived.value = true;
         });
     });
 
